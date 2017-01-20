@@ -74,11 +74,9 @@ test('ignores stdin if any files were on command line', function(t) {
 test('writes to stderr on parse error', function(t) {
   t.plan(1);
 
-  var child = spawn(bin(), []);
+  var child = spawn(bin(), [fixture('invalid.js')]);
   child.stderr
     .pipe(concat(function(contents) {
       t.ok(contents.toString().length > 0);
     }));
-
-  child.stdin.end('asdf asdf asdf asdf');
 });
