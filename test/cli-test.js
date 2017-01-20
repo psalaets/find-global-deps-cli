@@ -4,7 +4,7 @@ var concat = require('concat-stream');
 var path = require('path');
 
 function fixture(fixtureFilename) {
-  return path.resolve(__dirname, fixtureFilename);
+  return path.resolve(__dirname, 'fixtures', fixtureFilename);
 }
 
 function bin() {
@@ -17,15 +17,15 @@ test('single file via command line args', function(t) {
   var child = spawn(bin(), [fixture('fixture-a.js')]);
   child.stdout
     .pipe(concat(function(contents) {
-      t.equals(contents.toString(), 'File: test/fixture-a.js\nGlobals: a\n');
+      t.equals(contents.toString(), 'File: test/fixtures/fixture-a.js\nGlobals: a\n');
     }));
 });
 
 test('multiple files via command line args', function(t) {
   t.plan(1);
 
-  var expected = 'File: test/fixture-a.js\nGlobals: a\n' +
-    'File: test/fixture-b.js\nGlobals: b, bb\n';
+  var expected = 'File: test/fixtures/fixture-a.js\nGlobals: a\n' +
+    'File: test/fixtures/fixture-b.js\nGlobals: b, bb\n';
 
   var child = spawn(bin(), [fixture('fixture-a.js'), fixture('fixture-b.js')]);
   child.stdout
@@ -34,11 +34,11 @@ test('multiple files via command line args', function(t) {
     }));
 });
 
-test('quoted glob', function(t) {
+test('quoted gulp-style glob', function(t) {
   t.plan(1);
 
-  var expected = 'File: test/fixture-a.js\nGlobals: a\n' +
-    'File: test/fixture-b.js\nGlobals: b, bb\n';
+  var expected = 'File: test/fixtures/fixture-a.js\nGlobals: a\n' +
+    'File: test/fixtures/fixture-b.js\nGlobals: b, bb\n';
 
   var child = spawn(bin(), ['**/fixture-*.js']);
   child.stdout
@@ -65,7 +65,7 @@ test('ignores stdin if any files were on command line', function(t) {
   var child = spawn(bin(), [fixture('fixture-a.js')]);
   child.stdout
     .pipe(concat(function(contents) {
-      t.equals(contents.toString(), 'File: test/fixture-a.js\nGlobals: a\n');
+      t.equals(contents.toString(), 'File: test/fixtures/fixture-a.js\nGlobals: a\n');
     }));
 
   child.stdin.end('foo');
