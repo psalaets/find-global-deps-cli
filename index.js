@@ -11,7 +11,7 @@ function run() {
   readInput(process.argv)
     .pipe(find())
     .on('error', function(error) {
-      console.log(error);
+      console.error(error);
     })
     .pipe(format())
     .pipe(process.stdout);

@@ -70,3 +70,15 @@ test('ignores stdin if any files were on command line', function(t) {
 
   child.stdin.end('foo');
 });
+
+test('writes to stderr on parse error', function(t) {
+  t.plan(1);
+
+  var child = spawn(bin(), []);
+  child.stderr
+    .pipe(concat(function(contents) {
+      t.ok(contents.toString().length > 0);
+    }));
+
+  child.stdin.end('asdf asdf asdf asdf');
+});
