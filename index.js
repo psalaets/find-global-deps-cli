@@ -1,8 +1,6 @@
 var findGlobalDeps = require('find-global-deps');
 var vfs = require('vinyl-fs');
 var through2 = require('through2');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var path = require('path');
 
 module.exports = run;
@@ -18,13 +16,7 @@ function run() {
 }
 
 function readInput(argv) {
-  if (argv.length > 2) {
-    return vfs.src(argv.slice(2), {base: process.cwd()});
-  } else {
-    return process.stdin
-      .pipe(source('<stdin>'))
-      .pipe(buffer());
-  }
+  return vfs.src(argv.slice(2), {base: process.cwd()});
 }
 
 function find() {

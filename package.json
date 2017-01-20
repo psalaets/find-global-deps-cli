@@ -12,9 +12,7 @@
   "dependencies": {
     "find-global-deps": "^1.0.1",
     "through2": "^2.0.3",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-fs": "^2.4.4",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-fs": "^2.4.4"
   },
   "devDependencies": {
     "concat-stream": "^1.6.0",

@@ -47,30 +47,6 @@ test('quoted gulp-style glob', function(t) {
     }));
 });
 
-test('stdin', function(t) {
-  t.plan(1);
-
-  var child = spawn(bin(), []);
-  child.stdout
-    .pipe(concat(function(contents) {
-      t.equals(contents.toString(), 'File: <stdin>\nGlobals: foo\n');
-    }));
-
-  child.stdin.end('foo');
-});
-
-test('ignores stdin if any files were on command line', function(t) {
-  t.plan(1);
-
-  var child = spawn(bin(), [fixture('fixture-a.js')]);
-  child.stdout
-    .pipe(concat(function(contents) {
-      t.equals(contents.toString(), 'File: test/fixtures/fixture-a.js\nGlobals: a\n');
-    }));
-
-  child.stdin.end('foo');
-});
-
 test('writes to stderr on parse error', function(t) {
   t.plan(1);
 
