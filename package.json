@@ -1,14 +1,19 @@
 {
   "name": "find-global-deps-cli",
   "version": "1.0.0",
-  "description": "",
+  "description": "CLI wrapper around find-global-deps",
   "main": "index.js",
   "scripts": {
     "test": "node test/cli-test.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["find", "detect", "global", "globals", "dependency", "cli"],
+  "author": "Paul Salaets <psalaets@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/psalaets/find-global-deps-cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/psalaets/find-global-deps-cli.git"
+  },
   "dependencies": {
     "commander": "^2.9.0",
     "find-global-deps": "^1.0.1",
