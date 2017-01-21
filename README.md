@@ -27,7 +27,7 @@ Important: This exposes an executable called `find-global-deps`, which is differ
     -v, --verbose            print all files, even ones with no global deps
 ```
 
-`pattern` is one or more gulp-style glob patterns. Any file matching the patterns will be checked. May need to wrap these in quotes to prevent shell from expanding them out.
+`pattern` is one or more [gulp-style](https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options) glob patterns. Any file matching the patterns will be checked. May need to wrap these in quotes to prevent shell from expanding them out.
 
 Use one or more `-e <env>` to override [default environment](https://github.com/psalaets/find-global-deps#optionsenvironment) option of `find-global-deps`.
 
