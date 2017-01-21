@@ -5,13 +5,13 @@ var path = require('path');
 
 module.exports = run;
 
-function run({environment, patterns}) {
+function run({environment, patterns, verbose}) {
   readInput(patterns)
     .pipe(find(environment))
     .on('error', function(error) {
       console.error(error);
     })
-    .pipe(format())
+    .pipe(format(verbose))
     .pipe(process.stdout);
 }
 
@@ -36,18 +36,21 @@ function find(environment) {
   });
 }
 
-function format() {
+function format(verbose) {
   return through2.obj(function formatTransform(result, encoding, callback) {
     var file = result.file;
     var base = path.normalize(file.base + '/');
+    var globals = result.globals;
 
-    var fileOutput = file.path.slice(base.length);
-    var globalsOutput = [...result.globals].sort().join(', ');
+    if (verbose || globals.size > 0) {
+      var fileOutput = file.path.slice(base.length);
+      var globalsOutput = [...result.globals].sort().join(', ');
 
-    var output = `File: ${fileOutput}
-Globals: ${globalsOutput}
-`;
+      var output = `File: ${fileOutput}\nGlobals: ${globalsOutput}\n`;
 
-    return callback(null, output);
+      return callback(null, output);
+    } else {
+      return callback();
+    }
   });
 }

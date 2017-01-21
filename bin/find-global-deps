@@ -9,6 +9,7 @@ program
   .version(require('../package.json').version)
   .usage('[options] <pattern...>')
   .option('-e, --env <environment>', 'environment specifier (can pass multiple: -e es6 -e node)', collectEnvironment, environment)
+  .option('-v, --verbose', 'print all files, even ones with no global deps')
   .parse(process.argv)
 
 function collectEnvironment(value, array) {
@@ -18,5 +19,6 @@ function collectEnvironment(value, array) {
 
 run({
   environment: environment.length > 0 ? environment : null,
-  patterns: program.args
+  patterns: program.args,
+  verbose: !!program.verbose
 });

@@ -60,9 +60,57 @@ test('writes to stderr on parse error', function(t) {
 test('specify environment via command line args', function(t) {
   t.plan(1);
 
-  var expected = 'File: test/fixtures/browser-commonjs.js\nGlobals: \n';
+  var expected = 'File: test/fixtures/browser-commonjs.js\nGlobals: blah\n';
 
   var child = spawn(bin(), ['-e', 'browser', '-e', 'commonjs', fixture('browser-commonjs.js')]);
+  child.stdout
+    .pipe(concat(function(contents) {
+      t.equals(contents.toString(), expected);
+    }));
+});
+
+test('(long param) specify environment via command line args', function(t) {
+  t.plan(1);
+
+  var expected = 'File: test/fixtures/browser-commonjs.js\nGlobals: blah\n';
+
+  var child = spawn(bin(), ['--env', 'browser', '--env', 'commonjs', fixture('browser-commonjs.js')]);
+  child.stdout
+    .pipe(concat(function(contents) {
+      t.equals(contents.toString(), expected);
+    }));
+});
+
+test('by default, does not print files that have no globals', function(t) {
+  t.plan(1);
+
+  var expected = '';
+
+  var child = spawn(bin(), [fixture('no-globals.js')]);
+  child.stdout
+    .pipe(concat(function(contents) {
+      t.equals(contents.toString(), expected);
+    }));
+});
+
+test('in verbose mode, does print files that have no globals', function(t) {
+  t.plan(1);
+
+  var expected = 'File: test/fixtures/no-globals.js\nGlobals: \n';
+
+  var child = spawn(bin(), ['-v', fixture('no-globals.js')]);
+  child.stdout
+    .pipe(concat(function(contents) {
+      t.equals(contents.toString(), expected);
+    }));
+});
+
+test('(long param) in verbose mode, does print files that have no globals', function(t) {
+  t.plan(1);
+
+  var expected = 'File: test/fixtures/no-globals.js\nGlobals: \n';
+
+  var child = spawn(bin(), ['--verbose', fixture('no-globals.js')]);
   child.stdout
     .pipe(concat(function(contents) {
       t.equals(contents.toString(), expected);
