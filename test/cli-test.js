@@ -56,3 +56,15 @@ test('writes to stderr on parse error', function(t) {
       t.ok(contents.toString().length > 0);
     }));
 });
+
+test('specify environment via command line args', function(t) {
+  t.plan(1);
+
+  var expected = 'File: test/fixtures/browser-commonjs.js\nGlobals: \n';
+
+  var child = spawn(bin(), ['-e', 'browser', '-e', 'commonjs', fixture('browser-commonjs.js')]);
+  child.stdout
+    .pipe(concat(function(contents) {
+      t.equals(contents.toString(), expected);
+    }));
+});

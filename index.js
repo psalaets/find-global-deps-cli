@@ -5,9 +5,9 @@ var path = require('path');
 
 module.exports = run;
 
-function run() {
-  readInput(process.argv)
-    .pipe(find())
+function run({environment, patterns}) {
+  readInput(patterns)
+    .pipe(find(environment))
     .on('error', function(error) {
       console.error(error);
     })
@@ -15,15 +15,17 @@ function run() {
     .pipe(process.stdout);
 }
 
-function readInput(argv) {
-  return vfs.src(argv.slice(2), {base: process.cwd()});
+function readInput(patterns) {
+  return vfs.src(patterns, {base: process.cwd()});
 }
 
-function find() {
+function find(environment) {
   return through2.obj(function findTransform(file, encoding, callback) {
     try {
       var result = {
-        globals: findGlobalDeps(file.contents.toString()),
+        globals: findGlobalDeps(file.contents.toString(), {
+          environment
+        }),
         file
       };
 

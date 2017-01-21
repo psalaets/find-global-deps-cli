@@ -1,3 +1,22 @@
 #!/usr/bin/env node
 
-require('..')();
+var program = require('commander');
+var run = require('..');
+
+var environment = [];
+
+program
+  .version(require('../package.json').version)
+  .usage('[options] <pattern...>')
+  .option('-e, --env <environment>', 'environment specifier (can pass multiple: -e es6 -e node)', collectEnvironment, environment)
+  .parse(process.argv)
+
+function collectEnvironment(value, array) {
+  array.push(value);
+  return array;
+}
+
+run({
+  environment: environment.length > 0 ? environment : null,
+  patterns: program.args
+});
